@@ -1,0 +1,94 @@
+<?php
+
+function asc_taxonomy_filters_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks[0]['info'] = t('Active Filters');
+      $blocks[0]['cache'] = BLOCK_NO_CACHE;
+      $blocks[1]['info'] = t('Appointments');
+      $blocks[2]['info'] = t('Research Interests');
+      $blocks[3]['info'] = t('Back to Top');
+      return $blocks;
+
+    case 'view':
+      if ($delta == 0) {
+        $terms = array();
+
+        if (isset($_GET['area']) && $_GET['area'] != "All") {
+          $term = taxonomy_get_term($_GET['area']);
+          $terms[] = $term->name;
+        }
+
+        if (isset($_GET['appt']) && $_GET['appt'] != "All") {
+          $term = taxonomy_get_term($_GET['appt']);
+          $terms[] = $term->name;
+        }
+
+        $block['subject'] = t('Active Filters');
+        $block['content'] = theme('item_list',$terms);
+      }      
+      elseif ($delta == 1) {
+        $list = array();
+        $vocabulary = "appointments";
+        $list = build_filter_list($vocabulary);
+        
+        $block['content'] = theme('item_list',$list);
+        $block['subject'] = "Filter by:";
+      }
+      elseif ($delta == 2) {
+        $list = array();
+        $vocabulary = "interests";
+        $list = build_filter_list($vocabulary);
+        
+        $block['content'] = theme('item_list',$list);
+        $block['subject'] = "Filter by Interest";
+      }
+
+      elseif ($delta == 3) {
+        $block['content'] = '<div id="backtotop"><a href="#">Back to Top</a></div>';
+        $block['subject'] = "";
+      }
+      return $block;
+  }  
+}
+
+function construct_querystring($vocabulary) {
+  $string = "?";
+  foreach ($_GET as $get => $value) {
+    if ($get != 'q' && $get != $vocabulary) {
+      $string .= $get . "=" . $value . "&";
+    }
+  }
+  return $string;
+}
+
+function build_filter_list($vocabulary) {
+  $qs = construct_querystring($vocabulary);
+
+  //Start by getting vocab name from vid.
+  $result = db_query("SELECT vid FROM {vocabulary} WHERE name = '%s'", $vocabulary);
+  $vid = db_fetch_object($result)->vid;
+
+  //Get all terms for that vocab.
+  $terms = taxonomy_get_tree($vid);
+  unset($get[$vocabulary]);
+  $list[] = '<a href="/directory'. $qs . '">All</a>';
+  $active_term = taxonomy_get_term($_GET[$vocabulary]);
+  $active_parents = taxonomy_get_parents($active_term->tid);
+  $active_parent_id = array_shift($active_parents)->tid;
+  foreach ($terms as &$term) {
+    ($active_term->tid == $term->tid) ? $classes = "active" : $classes = "";
+
+    // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
+    if ($term->parents[0] != 0 && ($classes == "active" || $term->parents[0] == $_GET[$vocabulary]) || $active_parent_id == $term->parents[0]) {
+      $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/directory' . $qs  . $vocabulary . '=' . $term->tid . $newget . '">' . $term->name . '</a>';
+    }    
+    elseif ($term->parents[0] == 0) {
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/directory' . $qs . $vocabulary . '=' . $term->tid . $newget . '">' . $term->name . '</a>';
+    }  
+  }
+  return($list);
+}
+
+
+?>
