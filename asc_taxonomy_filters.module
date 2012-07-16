@@ -3,53 +3,46 @@
 function asc_taxonomy_filters_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
-      $blocks[0]['info'] = t('Active Filters');
-      $blocks[0]['cache'] = BLOCK_NO_CACHE;
-      $blocks[1]['info'] = t('Appointments');
-      $blocks[2]['info'] = t('Research Interests');
-      $blocks[3]['info'] = t('Back to Top');
+
+      $blocks[-1]['info'] = t('Active Filters');
+      $blocks[-1]['cache'] = BLOCK_NO_CACHE;
+
+      //Set block info for each term.
+      $vocabularies = taxonomy_load_multiple();
+      foreach ($vocabularies as $vocab) {
+          $blocks[$vocab['vid']]['info'] = t('Term Filter: ' . $vocab['name']);
+      }
+
       return $blocks;
 
     case 'view':
-      if ($delta == 0) {
-        $terms = array();
+      //Active Filters Block Lists Active Terms from URL.
+      if ($delta == -1) {
+        $term_names = array();
+        $term_ids = DO SOMETHING TO GET IDS FROM GET
 
-        if (isset($_GET['area']) && $_GET['area'] != "All") {
-          $term = taxonomy_get_term($_GET['area']);
-          $terms[] = $term->name;
-        }
-
-        if (isset($_GET['appt']) && $_GET['appt'] != "All") {
-          $term = taxonomy_get_term($_GET['appt']);
-          $terms[] = $term->name;
+        foreach ($term_ids as $term_id) {
+          $term = taxonomy_get_term($term_id);
+          $term_names[] = $term->name;
         }
 
         $block['subject'] = t('Active Filters');
-        $block['content'] = theme('item_list',$terms);
-      }      
-      elseif ($delta == 1) {
-        $list = array();
-        $vocabulary = "appointments";
-        $list = build_filter_list($vocabulary);
-        
-        $block['content'] = theme('item_list',$list);
-        $block['subject'] = "Filter by:";
-      }
-      elseif ($delta == 2) {
-        $list = array();
-        $vocabulary = "interests";
-        $list = build_filter_list($vocabulary);
-        
-        $block['content'] = theme('item_list',$list);
-        $block['subject'] = "Filter by Interest";
+        $block['content'] = theme('item_list',$term_names);
       }
 
-      elseif ($delta == 3) {
-        $block['content'] = '<div id="backtotop"><a href="#">Back to Top</a></div>';
-        $block['subject'] = "";
+      else {
+        //Delta should be VID.
+        $vocab = taxonomy_vocabulary_load($delta);
+
+        $list = array();
+        $list = build_filter_list($delta);
+
+        $block['content'] = theme('item_list',$list);
+        $block['subject'] = "Filter by " . $vocab['name'];
       }
+
       return $block;
-  }  
+  }
 }
 
 function construct_querystring($vocabulary) {
@@ -62,33 +55,83 @@ function construct_querystring($vocabulary) {
   return $string;
 }
 
-function build_filter_list($vocabulary) {
-  $qs = construct_querystring($vocabulary);
+function build_filter_list($vid) {
 
-  //Start by getting vocab name from vid.
-  $result = db_query("SELECT vid FROM {vocabulary} WHERE name = '%s'", $vocabulary);
-  $vid = db_fetch_object($result)->vid;
+  //Get URL without /1+2+3
+  $section = asc_get_current_section();
 
-  //Get all terms for that vocab.
+  //Get all terms for this vid.
   $terms = taxonomy_get_tree($vid);
-  unset($get[$vocabulary]);
-  $list[] = '<a href="/directory'. $qs . '">All</a>';
-  $active_term = taxonomy_get_term($_GET[$vocabulary]);
-  $active_parents = taxonomy_get_parents($active_term->tid);
-  $active_parent_id = array_shift($active_parents)->tid;
-  foreach ($terms as &$term) {
-    ($active_term->tid == $term->tid) ? $classes = "active" : $classes = "";
 
+  //Add first list item.
+  $list[] = '<a href="'. $section . '/">All</a>';
+
+  //List of current terms to check for active.
+  $active_term_list = asc_get_active_terms();
+
+  $qs = implode('+',$active_term_list);
+
+  //Build an array of parents of active terms.
+  $active_parents = array();
+  foreach ($active_term_list as $active_term) {
+    foreach (taxonomy_get_parents($active_term->tid) as $parent){
+        $active_parents[] = $parent->tid;
+    }
+  }
+
+  foreach ($terms as &$term) {
+    //Apply active class if this term is active in URL.
+    (in_array($term->tid, $current_term_list)) ? $classes = "active" : $classes = "";
     // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
-    if ($term->parents[0] != 0 && ($classes == "active" || $term->parents[0] == $_GET[$vocabulary]) || $active_parent_id == $term->parents[0]) {
-      $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/directory' . $qs  . $vocabulary . '=' . $term->tid . $newget . '">' . $term->name . '</a>';
-    }    
+    if (in_array($term->parents[0]->tid, $active_term_list) ||
+                is_parent_active($active_parents, $active_term_list) {}
+      $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
+          '/' . $qs . '+' . $term->tid . '">' . $term->name . '</a>';
+    }
+
+    // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/directory' . $qs . $vocabulary . '=' . $term->tid . $newget . '">' . $term->name . '</a>';
-    }  
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs '+' .     $term->tid . '">' . $term->name . '</a>';
+    }
   }
   return($list);
 }
 
+/**
+ * is_parent_active
+ *   In php 5.4.2 this can be replaced with a straight in_array()
+ * @return bool
+ *   Returns true if any elements from active parents are in active term list.
+ */
+function is_parent_active($active_parents, $active_term_list) {
+  foreach ($active_parents as $active_parent) {
+    if (in_array($active_parent, $active_term_list)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
 
-?>
+/**
+ * Returns name of current section of website.
+ * @return string
+ *   current website section
+ */
+function asc_get_active_section() {
+  $section = explode($_GET['q']),'/';
+  array_pop($section);
+  $new_section = implode('/', $section);
+
+  return $new_section;
+}
+
+/**
+ * Returns array of current filter ids.
+ * @return array
+ *   of current filter ids.
+ */
+function asc_get_active_terms() {
+  $terms = explode($_GET['q']),'/';
+  $term_list = explode('+', end($terms))
+  return $term_list;
+}
