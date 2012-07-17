@@ -1,20 +1,29 @@
 <?php
 
+/**
+ * @file
+ * asc_taxonomy_filter.module
+ */
+
+/**
+ * Implements hook_block_info()
+ */
+
 function asc_taxonomy_filter_block_info() {
 
   $blocks['active_filters'] = array(
     'info'        => t('Active Filters'),
-    'weight'      => '0',
+    'weight'      => '-10',
     'region'      => 'content',
     'status'      => TRUE,
     'visibility'  =>  '1',
   );
 
   //Set block info for each term.
-  $vocabularies = taxonomy_vocabulary_load_multiple();
+  $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
   foreach ($vocabularies as $vocab) {
-    $blocks[$vocab['machine_name']] = array(
-      'info'        => t('Term Filter: ' . $vocab['name']),
+    $blocks[$vocab->machine_name] = array(
+      'info'        => t('Term Filter: ' . $vocab->name),
       'weight'      => '0',
       'region'      => 'sidebar',
       'status'      => TRUE,
@@ -23,6 +32,41 @@ function asc_taxonomy_filter_block_info() {
   }
 
   return $blocks;
+}
+
+/**
+ * Implements hook_block_view( )
+ */
+
+function asc_taxonomy_filter_block_view($delta = '') {
+
+  switch($delta) {
+    case 'active_filters':
+      $block['subject'] = 'Active Filters';
+
+      $term_list = array();
+      $term_list['title'] = 'Active Filters';
+      $term_list['type'] = 'ul';
+      $term_list['attributes'] = array();
+      $term_list['items'] = asc_get_active_term_names();
+      $block['content'] = theme_item_list($term_list);
+      break;
+
+    default:
+      $vocab = taxonomy_vocabulary_machine_name_load($delta);
+      $block['subject'] = 'Filter by: ' . $vocab->name;
+
+
+      $filters = array();
+      $filters['title'] = '';
+      $filters['type'] = 'ul';
+      $filters['attributes'] = array();
+      $filters['items'] = build_filter_list($vocab);
+      $block['content'] = theme_item_list($filters);
+  }
+
+  return $block;
+
 }
 
 function construct_querystring($vocabulary) {
@@ -35,43 +79,46 @@ function construct_querystring($vocabulary) {
   return $string;
 }
 
-function build_filter_list($vid) {
+function build_filter_list($vocab) {
 
-  //Get URL without /1+2+3
-  $section = asc_get_current_section();
+
+  //Get URL without /1,2,3
+  $section = asc_get_active_section();
 
   //Get all terms for this vid.
-  $terms = taxonomy_get_tree($vid);
+  $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="'. $section . '/">All</a>';
+  $list[] = '<a href="/'. $section . '/">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
 
-  $qs = implode('+',$active_term_list);
+  $qs = implode(',',$active_term_list);
 
   //Build an array of parents of active terms.
   $active_parents = array();
-  foreach ($active_term_list as $active_term) {
-    foreach (taxonomy_get_parents($active_term->tid) as $parent){
+  foreach ($active_term_list as $active_term_id) {
+    foreach (taxonomy_get_parents($active_term_id) as $parent){
         $active_parents[] = $parent->tid;
     }
   }
 
-  foreach ($terms as &$term) {
+  foreach ($terms as $term) {
     //Apply active class if this term is active in URL.
-    (in_array($term->tid, $current_term_list)) ? $classes = "active" : $classes = "";
+    (in_array($term->tid, $active_term_list)) ? $classes = "active" : $classes = "";
+
     // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
-    if (in_array($term->parents[0]->tid, $active_term_list) ||
+    dsm($term);
+    if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          '/' . $qs . '+' . $term->tid . '">' . $term->name . '</a>';
+          '/' . $qs . ',' . $term->tid . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . '+' . $term->tid . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . ',' . $term->tid . '">' . $term->name . '</a>';
     }
   }
   return($list);
@@ -98,7 +145,7 @@ function is_parent_active($active_parents, $active_term_list) {
  *   current website section
  */
 function asc_get_active_section() {
-  $section = explode('/',$_GET['q']);
+  $section = explode('/', request_path());
   array_pop($section);
   $new_section = implode('/', $section);
 
@@ -111,7 +158,27 @@ function asc_get_active_section() {
  *   of current filter ids.
  */
 function asc_get_active_terms() {
-  $terms = explode('/', $_GET['q']);
-  $term_list = explode('+', end($terms));
+  $terms = explode('/', request_path());
+  $ids = end($terms);
+  $term_list = array();
+  //ids contains one integer, or a list of comma separated integers
+  if ((strval(intval($ids)) == strval($ids)) || strpos($ids, ',')) {
+    $term_list = explode(',', end($terms));
+  }
   return $term_list;
+}
+
+/**
+ * Returns array of current filter names.
+ */
+
+function asc_get_active_term_names() {
+  $term_names = array();
+  $term_ids = asc_get_active_terms();
+  dsm($term_ids);
+  foreach($term_ids as $term_id) {
+    $term = taxonomy_term_load($term_id);
+    $term_names[] = $term->name;
+  }
+  return $term_names;
 }
