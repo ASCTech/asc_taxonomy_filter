@@ -1,6 +1,6 @@
-name = "ASC Taxonomy Filters"
+name = "ASC Taxonomy Filter"
 description = "Blocks with menus for vocabularies to filter ASC views."
 core = "7.x"
 package = "ASC"
 version = "7.x.-1.x"
-project = "asc_directory_filters"
+files[] = asc_taxonomy_filter.module

@@ -2,47 +2,27 @@
 
 function asc_taxonomy_filter_block_info() {
 
-      $blocks['active_filters'] = array(
-        'info'  => t('Active Filters'),
-        'status'  => TRUE,
-      );
+  $blocks['active_filters'] = array(
+    'info'        => t('Active Filters'),
+    'weight'      => '0',
+    'region'      => 'content',
+    'status'      => TRUE,
+    'visibility'  =>  '1',
+  );
 
-      //Set block info for each term.
-      $vocabularies = taxonomy_vocabulary_load_multiple();
-      foreach ($vocabularies as $vocab) {
-          $blocks[$vocab['machine_name']] = t('Term Filter: ' . $vocab['name']);
-      }
+  //Set block info for each term.
+  $vocabularies = taxonomy_vocabulary_load_multiple();
+  foreach ($vocabularies as $vocab) {
+    $blocks[$vocab['machine_name']] = array(
+      'info'        => t('Term Filter: ' . $vocab['name']),
+      'weight'      => '0',
+      'region'      => 'sidebar',
+      'status'      => TRUE,
+      'visibility'  => '1',
+    );
+  }
 
-      return $blocks;
-      /*
-    case 'view':
-      //Active Filters Block Lists Active Terms from URL.
-      if ($delta == -1) {
-        $term_names = array();
-        $term_ids = asc_get_active_terms();
-
-        foreach ($term_ids as $term_id) {
-          $term = taxonomy_get_term($term_id);
-          $term_names[] = $term->name;
-        }
-
-        $block['subject'] = t('Active Filters');
-        $block['content'] = theme('item_list',$term_names);
-      }
-
-      else {
-        //Delta should be VID.
-        $vocab = taxonomy_vocabulary_load($delta);
-
-        $list = array();
-        $list = build_filter_list($delta);
-
-        $block['content'] = theme('item_list',$list);
-        $block['subject'] = "Filter by " . $vocab['name'];
-      }
-
-      return $block;
-       */
+  return $blocks;
 }
 
 function construct_querystring($vocabulary) {
