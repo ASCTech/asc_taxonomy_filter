@@ -94,7 +94,7 @@ function build_filter_list($vocab) {
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
 
-  $qs = implode(',',$active_term_list);
+  $qs = implode(',',$active_term_list) . ',';
 
   //Build an array of parents of active terms.
   $active_parents = array();
@@ -109,16 +109,15 @@ function build_filter_list($vocab) {
     (in_array($term->tid, $active_term_list)) ? $classes = "active" : $classes = "";
 
     // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
-    dsm($term);
     if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          '/' . $qs . ',' . $term->tid . '">' . $term->name . '</a>';
+          '/' . $qs . $term->tid . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . ',' . $term->tid . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . '">' . $term->name . '</a>';
     }
   }
   return($list);
