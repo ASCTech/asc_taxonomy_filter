@@ -145,11 +145,7 @@ function is_parent_active($active_parents, $active_term_list) {
  *   current website section
  */
 function asc_get_active_section() {
-  $section = explode('/', request_path());
-  array_pop($section);
-  $new_section = implode('/', $section);
-
-  return $new_section;
+  return arg(1);
 }
 
 /**
