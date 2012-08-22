@@ -83,13 +83,13 @@ function build_filter_list($vocab) {
 
 
   //Get URL without /1,2,3
-  $section = asc_get_active_section();
+  $section = drupal_get_path_alias();
 
   //Get all terms for this vid.
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="/news'. $section . '/">All</a>';
+  $list[] = '<a href="/'. $section . '/">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
