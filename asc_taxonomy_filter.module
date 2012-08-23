@@ -40,7 +40,7 @@ function asc_taxonomy_filter_block_info() {
 
 function asc_taxonomy_filter_block_view($delta = '') {
 
-  drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS DEFAULT, 'type' => 'file'));
+  drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 
   switch($delta) {
     case 'active_filters':
