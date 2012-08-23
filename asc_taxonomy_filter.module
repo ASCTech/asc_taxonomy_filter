@@ -83,7 +83,8 @@ function build_filter_list($vocab) {
 
 
   //Get URL without /1,2,3
-  $section = drupal_get_path_alias();
+  $url_array = explode(drupal_get_path_alias()),'/');
+  $section = $url_array[0];
 
   //Get all terms for this vid.
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
@@ -96,7 +97,7 @@ function build_filter_list($vocab) {
 
   $qs = implode(',',$active_term_list);
 
-  $term_to_append = ($term->tid ? ',' . $term->tid : '');
+  $term_to_append = ',' . $term->tid;
 
   //Build an array of parents of active terms.
   $active_parents = array();
@@ -138,15 +139,6 @@ function is_parent_active($active_parents, $active_term_list) {
     }
   }
   return FALSE;
-}
-
-/**
- * Returns name of current section of website.
- * @return string
- *   current website section
- */
-function asc_get_active_section() {
-  return arg(2);
 }
 
 /**
