@@ -83,7 +83,7 @@ function build_filter_list($vocab) {
 
 
   //Get URL without /1,2,3
-  $url_array = explode(drupal_get_path_alias()),'/');
+  $url_array = explode('/', drupal_get_path_alias());
   $section = $url_array[0];
 
   //Get all terms for this vid.
