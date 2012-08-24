@@ -21,3 +21,15 @@
 #block-asc-taxonomy-filter-news-terms-1 a {
   color: #000000;
 }
+
+#block-asc-taxonomy-filter-active-filters ul {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  display: inline;
+  height: 3em;
+  font-weight: bold;
+}
+
+#block-asc-taxonomy-filter-active-filters ul li.first {
+  margin-left: 0;
+}
