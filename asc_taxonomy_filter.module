@@ -166,7 +166,6 @@ function asc_get_active_terms() {
 function asc_get_active_term_names() {
   $term_names = array();
   $term_ids = asc_get_active_terms();
-  dsm($term_ids);
   foreach($term_ids as $term_id) {
     $term = taxonomy_term_load($term_id);
     $term_names[] = $term->name;
