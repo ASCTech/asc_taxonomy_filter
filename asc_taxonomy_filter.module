@@ -44,10 +44,10 @@ function asc_taxonomy_filter_block_view($delta = '') {
 
   switch($delta) {
     case 'active_filters':
-      $block['subject'] = 'Active Filters';
+      $block['subject'] = '';
 
       $term_list = array();
-      $term_list['title'] = 'Active Filters';
+      $term_list['title'] = '';
       $term_list['type'] = 'ul';
       $term_list['attributes'] = array();
       $term_list['items'] = asc_get_active_term_names();
