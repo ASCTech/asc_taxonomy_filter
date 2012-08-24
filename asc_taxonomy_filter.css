@@ -22,14 +22,17 @@
   color: #000000;
 }
 
-#block-asc-taxonomy-filter-active-filters ul {
+#block-asc-taxonomy-filter-active-filters div.item-list ul {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  display: inline;
   height: 3em;
   font-weight: bold;
 }
 
-#block-asc-taxonomy-filter-active-filters ul li.first {
+#block-asc-taxonomy-filter-active-filters div.item-list ul li {
+  display: inline;
+}
+
+#block-asc-taxonomy-filter-active-filters div.item-list ul li.first {
   margin-left: 0;
 }
