@@ -99,7 +99,7 @@ function build_filter_list($vocab) {
 
   $qs = (implode(',',$active_term_list)) . (count($active_term_list) > 0 ? ',' : '');
 
-  $term_to_append = ',' . $term->tid;
+  $term_to_append = (isset($term) ? ',' . $term->tid : '');
 
   //Build an array of parents of active terms.
   $active_parents = array();
