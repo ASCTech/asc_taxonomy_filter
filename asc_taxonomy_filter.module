@@ -40,6 +40,9 @@ function asc_taxonomy_filter_block_info() {
 
 function asc_taxonomy_filter_block_view($delta = '') {
 
+  $url_array = explode('/', drupal_get_path_alias());
+  $section = $url_array[0];
+
   drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 
   switch($delta) {
@@ -86,7 +89,7 @@ function build_filter_list($vocab) {
 
   //Get URL without /1,2,3
   $url_array = explode('/', drupal_get_path_alias());
-  $section = $url_array[0];
+  $section = $url_array[0] . 'filters';
 
   //Get all terms for this vid.
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
