@@ -97,7 +97,7 @@ function build_filter_list($vocab) {
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="/'. $section . $other_params'">All</a>';
+  $list[] = '<a href="/'. $section . $other_params . '">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
