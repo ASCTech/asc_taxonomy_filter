@@ -127,7 +127,7 @@ function build_filter_list($vocab) {
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $otherparams'">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $otherparams . '">' . $term->name . '</a>';
     }
   }
   return($list);
