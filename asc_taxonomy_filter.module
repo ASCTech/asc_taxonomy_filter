@@ -75,6 +75,7 @@ function asc_taxonomy_filter_block_view($delta = '') {
 }
 
 function construct_query_params($vocabulary) {
+  $string = '?';
   foreach ($_GET as $get => $value) {
     if ($get != 'q' && $get != $vocabulary) {
       $string .= $get . "=" . $value . "&";
@@ -90,11 +91,13 @@ function build_filter_list($vocab) {
   $url_array = explode('/', drupal_get_path_alias());
   $section = $url_array[0] . '/filters';
 
+  $other_params = construct_query_params();
+
   //Get all terms for this vid.
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="/'. $section . '/">All</a>';
+  $list[] = '<a href="/'. $section . $other_params'">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
@@ -102,9 +105,6 @@ function build_filter_list($vocab) {
   $qs = (implode(',',$active_term_list)) . (count($active_term_list) > 0 ? ',' : '');
 
   $term_to_append = (isset($term) ? ',' . $term->tid : '');
-
-  
-  $other_params = construct_query_params;
 
   //Build an array of parents of active terms.
   $active_parents = array();
@@ -122,12 +122,12 @@ function build_filter_list($vocab) {
     if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          '/' . $qs . $term->tid . '">' . $term->name . '</a>';
+          '/' . $qs . $term->tid . $other_params . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $otherparams . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $other_params . '">' . $term->name . '</a>';
     }
   }
   return($list);
