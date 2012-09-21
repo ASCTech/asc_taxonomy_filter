@@ -74,8 +74,7 @@ function asc_taxonomy_filter_block_view($delta = '') {
 
 }
 
-function construct_querystring($vocabulary) {
-  $string = "?";
+function construct_query_params($vocabulary) {
   foreach ($_GET as $get => $value) {
     if ($get != 'q' && $get != $vocabulary) {
       $string .= $get . "=" . $value . "&";
@@ -104,6 +103,9 @@ function build_filter_list($vocab) {
 
   $term_to_append = (isset($term) ? ',' . $term->tid : '');
 
+  
+  $other_params = construct_query_params;
+
   //Build an array of parents of active terms.
   $active_parents = array();
   foreach ($active_term_list as $active_term_id) {
@@ -125,7 +127,7 @@ function build_filter_list($vocab) {
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $otherparams'">' . $term->name . '</a>';
     }
   }
   return($list);
