@@ -1,5 +1,5 @@
 #block-asc-taxonomy-filter-news-terms-1 h2.block-title,
-#block-asc-taxonomy-filter-events-terms-1 h2.block-title,
+#block-asc-taxonomy-filter-event-terms-1 h2.block-title,
 #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
 #block-asc-taxonomy-filter-news-terms-1 h2.block-title{
   float: left;
@@ -9,14 +9,14 @@
 }
 
 #block-asc-taxonomy-filter-news-terms-1 li,
-#block-asc-taxonomy-filter-events-terms-1 li,
+#block-asc-taxonomy-filter-event-terms-1 li,
 #block-asc-taxonomy-filter-blog-terms-1 li,
 #block-asc-taxonomy-filter-news-terms-1 li {
   display: inline;
 }
 
 #block-asc-taxonomy-filter-news-terms-1 a,
-#block-asc-taxonomy-filter-events-terms-1 a,
+#block-asc-taxonomy-filter-event-terms-1 a,
 #block-asc-taxonomy-filter-blog-terms-1 a,
 #block-asc-taxonomy-filter-news-terms-1 a {
   color: #000000;
