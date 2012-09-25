@@ -90,7 +90,7 @@ function build_filter_list($vocab) {
   //Get URL without /1,2,3
   //$url_array = explode('/', drupal_get_path_alias());
   //$section = $url_array[0] . '/filters';
-  $section = drupal_get_path_alias() . '/filters';
+  $section = drupal_get_path_alias();
 
   $other_params = construct_query_params();
 
@@ -123,12 +123,12 @@ function build_filter_list($vocab) {
     if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          '/' . $qs . $term->tid . $other_params . '">' . $term->name . '</a>';
+          '/' . $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $qs . $term->tid . $other_params . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
     }
   }
   return($list);
