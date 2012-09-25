@@ -197,7 +197,7 @@ function get_current_section() {
   if ($filter == 'filter') {
     return drupal_get_path_alias() . ',';
   } else {
-    return drupal_get_path_alias() . '/filter/'
+    return drupal_get_path_alias() . '/filter/';
   }
 }
 
