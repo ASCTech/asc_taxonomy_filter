@@ -182,11 +182,7 @@ function current_filter_list() {
   $url_array = explode('/', drupal_get_path_alias());
   $terms = array_pop($url_array);
   $filter = array_pop($url_array);
-  if ($filter == 'filter') {
-    return ',' . $terms;
-  } else {
-    return '/filter/' . $terms;
-  }
+  return '/filter/' . $terms;
 
 }
 
@@ -195,8 +191,6 @@ function get_current_section() {
   $terms = array_pop($url_array);
   $filter = array_pop($url_array);
   if ($filter == 'filter') {
-    return drupal_get_path_alias() . ',';
-  } else {
     return drupal_get_path_alias() . '/filter/';
   }
 }
