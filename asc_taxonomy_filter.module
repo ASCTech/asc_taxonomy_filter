@@ -86,15 +86,9 @@ function construct_query_params() {
 
 function build_filter_list($vocab) {
 
+  $section = get_current_section();
 
   //Get URL without /1,2,3
-  $url_array = explode('/', drupal_get_path_alias());
-  
-  if ($url_array[-1] == 'filters') {
-
-  else {
-
-  }
 
   $other_params = construct_query_params();
 
@@ -119,6 +113,7 @@ function build_filter_list($vocab) {
     }
   }
 
+
   foreach ($terms as $term) {
     //Apply active class if this term is active in URL.
     (in_array($term->tid, $active_term_list)) ? $classes = "active" : $classes = "";
@@ -127,7 +122,7 @@ function build_filter_list($vocab) {
     if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          '/' . $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
+          $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
