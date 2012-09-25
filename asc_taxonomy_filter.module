@@ -74,14 +74,24 @@ function asc_taxonomy_filter_block_view($delta = '') {
 
 }
 
-function construct_query_params() {
-  $string = '?';
-  foreach ($_GET as $get => $value) {
-    if ($get != 'q' && $get != $vocabulary) {
-      $string .= $get . "=" . $value . "&";
-    }
+function get_current_section() {
+  $url_array = explode('/', drupal_get_path_alias());
+  $terms = array_pop($url_array);
+  $filter = array_pop($url_array);
+  if ($filter == 'filter') {
+    return drupal_get_path_alias() . ',';
+  } else {
+    return drupal_get_path_alias() . '/filter/';
   }
-  return $string;
+}
+
+function get_strip_filters() {
+  $url_array = explode('/', drupal_get_path_alias());
+  $terms = array_pop($url_array);
+  $filter = array_pop($url_array);
+  if ($filter == 'filter') {
+    return implode('/', $url_array);
+  }
 }
 
 function build_filter_list($vocab) {
@@ -90,13 +100,11 @@ function build_filter_list($vocab) {
 
   //Get URL without /1,2,3
 
-  $other_params = construct_query_params();
-
   //Get all terms for this vid.
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="/'. $section . 'all' . $other_params . '">All</a>';
+  $list[] = '<a href="/'. get_strip_filters() . '">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
@@ -122,12 +130,12 @@ function build_filter_list($vocab) {
     if (in_array($term->parents[0], $active_term_list) ||
                 is_parent_active($active_parents, $active_term_list)) {
       $list[$term->parents[0]]["children"][] = '<a class="' . $classes . '" href="/' . $section .
-          $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
+          $term->tid . ',' . '">' . $term->name . '</a>';
     }
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . '/' . $term->tid . ',' . $other_params . '">' . $term->name . '</a>';
+      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . $term->tid . '">' . $term->name . '</a>';
     }
   }
   return($list);
@@ -187,14 +195,6 @@ function current_filter_list() {
   }
 }
 
-function get_current_section() {
-  $url_array = explode('/', drupal_get_path_alias());
-  $terms = array_pop($url_array);
-  $filter = array_pop($url_array);
-  if ($filter == 'filter') {
-    return drupal_get_path_alias() . '/filter/';
-  }
-}
 
 function asc_taxonomy_filter_preprocess_calendar_datebox(&$vars) {
   $date = $vars['date'];
