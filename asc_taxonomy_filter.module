@@ -74,7 +74,7 @@ function asc_taxonomy_filter_block_view($delta = '') {
 
 }
 
-function construct_query_params($vocabulary) {
+function construct_query_params() {
   $string = '?';
   foreach ($_GET as $get => $value) {
     if ($get != 'q' && $get != $vocabulary) {
@@ -88,8 +88,9 @@ function build_filter_list($vocab) {
 
 
   //Get URL without /1,2,3
-  $url_array = explode('/', drupal_get_path_alias());
-  $section = $url_array[0] . '/filters';
+  //$url_array = explode('/', drupal_get_path_alias());
+  //$section = $url_array[0] . '/filters';
+  $section = drupal_get_path_alias() . '/filters';
 
   $other_params = construct_query_params();
 
