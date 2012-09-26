@@ -287,5 +287,5 @@ function asc_taxonomy_filter_date_pager_url ($view, $date_type = NULL, $date_arg
   // if they use exposed filters.
   return url($view->get_url($args), array(
     'query' => date_views_querystring($view),
-    'absolute' => $absolute)) .'sdf';
+    'absolute' => $absolute)) . current_filter_list();
 }
