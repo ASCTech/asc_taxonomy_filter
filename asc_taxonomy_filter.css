@@ -1,24 +1,24 @@
-#block-asc-taxonomy-filter-news-terms-1 .region-content h2.block-title,
-#block-asc-taxonomy-filter-blog-terms-1 .region-content h2.block-title,
-#block-asc-taxonomy-filter-people-terms-1 .region-content h2.block-title,
-#block-asc-taxonomy-filter-event-terms-1 .region-content h2.block-title,
+.region-content #block-asc-taxonomy-filter-news-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-people-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title,
   float: left;
   font-size: 1em;
   font-weight: bold;
   line-height: 1.75em;
 }
 
-#block-asc-taxonomy-filter-news-terms-1 .region-content li,
-#block-asc-taxonomy-filter-blog-terms-1 .region-content li,
-#block-asc-taxonomy-filter-people-terms-1 .region-content li,
-#block-asc-taxonomy-filter-event-terms-1 .region-content li {
+.region-content #block-asc-taxonomy-filter-news-terms-1 li,
+.region-content #block-asc-taxonomy-filter-blog-terms-1 li,
+.region-content #block-asc-taxonomy-filter-people-terms-1 li,
+.region-content #block-asc-taxonomy-filter-event-terms-1 li {
   display: inline;
 }
 
-#block-asc-taxonomy-filter-news-terms-1 .region-content a,
-#block-asc-taxonomy-filter-blog-terms-1 .region-content a,
-#block-asc-taxonomy-filter-people-terms-1 .region-content a,
-#block-asc-taxonomy-filter-event-terms-1 .region-content a {
+.region-content #block-asc-taxonomy-filter-news-terms-1 a,
+.region-content #block-asc-taxonomy-filter-blog-terms-1 a,
+.region-content #block-asc-taxonomy-filter-people-terms-1 a,
+.region-content #block-asc-taxonomy-filter-event-terms-1 a {
   color: #000000;
 }
 
