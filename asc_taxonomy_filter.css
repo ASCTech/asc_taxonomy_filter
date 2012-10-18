@@ -1,7 +1,7 @@
 .region-content #block-asc-taxonomy-filter-news-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-people-terms-1 h2.block-title,
-.region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title {
   float: left;
   font-size: 1em;
   font-weight: bold;
