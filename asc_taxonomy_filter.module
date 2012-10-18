@@ -27,7 +27,17 @@ function asc_taxonomy_filter_block_info() {
       'weight'      => '0',
       'region'      => 'sidebar',
       'status'      => TRUE,
-      'visibility'  => '1',
+      'visibility'  => BLOCK_VISIBILITY_LISTED,
+      'pages'       => 'news
+news/filter*
+events
+events/filter*
+blog
+blog/filter*
+people
+people/filter*
+gallery
+gallery/filter*',
     );
   }
 
