@@ -17,6 +17,16 @@ function asc_taxonomy_filter_block_info() {
     'region'      => 'content',
     'status'      => TRUE,
     'visibility'  =>  '1',
+      'pages'       => 'news
+news/filter*
+events
+events/filter*
+blog
+blog/filter*
+people
+people/filter*
+gallery
+gallery/filter*',
   );
 
   //Set block info for each term.
@@ -28,16 +38,6 @@ function asc_taxonomy_filter_block_info() {
       'region'      => 'sidebar',
       'status'      => TRUE,
       'visibility'  => BLOCK_VISIBILITY_LISTED,
-      'pages'       => 'news
-news/filter*
-events
-events/filter*
-blog
-blog/filter*
-people
-people/filter*
-gallery
-gallery/filter*',
     );
   }
 
@@ -96,12 +96,14 @@ function get_current_section() {
 }
 
 function get_strip_filters() {
-  $url_array = explode('/', drupal_get_path_alias());
+  $alias = drupal_get_path_alias();
+  $url_array = explode('/', $alias);
   $terms = array_pop($url_array);
   $filter = array_pop($url_array);
   if ($filter == 'filter') {
     return implode('/', $url_array);
   }
+  return $alias;
 }
 
 function build_filter_list($vocab) {
