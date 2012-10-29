@@ -69,7 +69,7 @@ function asc_taxonomy_filter_block_view($delta = '') {
 
     default:
       $vocab = taxonomy_vocabulary_machine_name_load($delta);
-      $block['subject'] = '' . $vocab->name;
+      $block['subject'] = $vocab->name;
 
 
       $filters = array();

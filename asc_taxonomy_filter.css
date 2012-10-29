@@ -21,7 +21,7 @@
 .region-content #block-asc-taxonomy-filter-blog-terms-1 a,
 .region-content #block-asc-taxonomy-filter-people-terms-1 a,
 .region-content #block-asc-taxonomy-filter-event-terms-1 a {
-  color: #000000;
+  /*color: #000000; Karin and Mike Ruled out*/
 }
 
 #block-asc-taxonomy-filter-active-filters div.item-list ul {
