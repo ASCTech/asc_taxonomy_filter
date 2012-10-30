@@ -2,12 +2,7 @@
 .region-content #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-people-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title {
-  float: left;
-  font-size: 1em;
-  clear: none;
-  font-size: 0.875em;
-  font-weight: bold;
-  line-height: 1.75em;
+  display: none;
 }
 
 .region-content #block-asc-taxonomy-filter-news-terms-1 li,
@@ -15,6 +10,8 @@
 .region-content #block-asc-taxonomy-filter-people-terms-1 li,
 .region-content #block-asc-taxonomy-filter-event-terms-1 li {
   display: inline;
+  padding: 0 0.75em;
+  border-left: 1px solid #333333;
 }
 
 .region-content #block-asc-taxonomy-filter-news-terms-1 a,
