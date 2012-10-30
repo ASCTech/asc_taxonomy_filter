@@ -71,7 +71,6 @@ function asc_taxonomy_filter_block_view($delta = '') {
       $vocab = taxonomy_vocabulary_machine_name_load($delta);
       $block['subject'] = $vocab->name;
 
-
       $filters = array();
       $filters['title'] = '';
       $filters['type'] = 'ul';
@@ -136,7 +135,6 @@ function build_filter_list($vocab) {
 
   foreach ($terms as $term) {
     //Apply active class if this term is active in URL.
-    (in_array($term->tid, $active_term_list)) ? $classes = "active" : $classes = "";
 
     // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
     if (in_array($term->parents[0], $active_term_list) ||
@@ -147,7 +145,11 @@ function build_filter_list($vocab) {
 
     // Display all top level terms.
     elseif ($term->parents[0] == 0) {
-      $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . $term->tid . '">' . $term->name . '</a>';
+      if (in_array($term->tid, $active_term_list)) {
+       $list[$term->tid][] = '<span class="active">' . $term->name . '</span>';
+      } else {
+       $list[$term->tid][] = '<a class="' . $classes . '" href="/' . $section . $term->tid . '">' . $term->name . '</a>';
+      }
     }
   }
   return($list);

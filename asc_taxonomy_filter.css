@@ -1,6 +1,7 @@
 .region-content #block-asc-taxonomy-filter-news-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-people-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-image-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title {
   display: none;
 }
@@ -8,17 +9,22 @@
 .region-content #block-asc-taxonomy-filter-news-terms-1 li,
 .region-content #block-asc-taxonomy-filter-blog-terms-1 li,
 .region-content #block-asc-taxonomy-filter-people-terms-1 li,
+.region-content #block-asc-taxonomy-filter-image-terms-1 li,
 .region-content #block-asc-taxonomy-filter-event-terms-1 li {
   display: inline;
   padding: 0 0.75em;
   border-left: 1px solid #333333;
+  margin-left: 0;
 }
 
-.region-content #block-asc-taxonomy-filter-news-terms-1 a,
-.region-content #block-asc-taxonomy-filter-blog-terms-1 a,
-.region-content #block-asc-taxonomy-filter-people-terms-1 a,
-.region-content #block-asc-taxonomy-filter-event-terms-1 a {
-  /*color: #000000; Karin and Mike Ruled out*/
+.region-content #block-asc-taxonomy-filter-news-terms-1 li:first-child,
+.region-content #block-asc-taxonomy-filter-blog-terms-1 li:first-child,
+.region-content #block-asc-taxonomy-filter-people-terms-1 li:first-child,
+.region-content #block-asc-taxonomy-filter-image-terms-1 li:first-child,
+.region-content #block-asc-taxonomy-filter-event-terms-1 li:first-child {
+  border-left: none;
+  margin: 0;
+  padding-left: 0;
 }
 
 #block-asc-taxonomy-filter-active-filters div.item-list ul {
