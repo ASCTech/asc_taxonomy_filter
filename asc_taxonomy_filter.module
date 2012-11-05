@@ -23,8 +23,7 @@ events
 events/filter*
 blog
 blog/filter*
-people
-people/filter*
+directory*
 gallery
 gallery/filter*',
   );
