@@ -47,8 +47,11 @@
 }
 
 .group-terms .field-type-taxonomy-term-reference {
-  padding-right: 6px;
   float: left;
+}
+
+.group-terms .field-type-taxonomy-term-reference .field-item {
+  padding-right: 0.3em;
 }
 
 .group-terms .field-type-taxonomy-term-reference .field-items,
