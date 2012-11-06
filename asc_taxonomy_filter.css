@@ -48,13 +48,19 @@
 
 .group-terms .fied-type-taxonomy-term-reference {
   padding-right: 6px;
+  float: left;
+}
+
+.group-terms .field-type-taxonomy-term-reference .field-items,
+.group-terms .field-type-taxonomy-term-reference .field-item {
+  display: inline;
 }
 
 .group-terms .field-type-taxonomy-term-reference:before {
-  content: '| ';
+  content: ' | ';
 }
 
 .group-terms .field-type-taxonomy-term-reference:first-child:before {
-  content: '| ';
+  content: '';
 }
 
