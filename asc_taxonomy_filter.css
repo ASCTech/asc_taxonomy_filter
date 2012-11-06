@@ -41,3 +41,16 @@
 #block-asc-taxonomy-filter-active-filters div.item-list ul li.first {
   margin-left: 0;
 }
+
+.group-terms {
+  border-top: 1px solid #333333;
+}
+
+.group-terms .field-type-taxonomy-term-reference:before {
+  content: '| ';
+}
+
+.group-terms .field-type-taxonomy-term-reference:first-child:before {
+  content: '| ';
+}
+
