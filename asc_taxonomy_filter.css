@@ -46,11 +46,20 @@
   border-top: 1px solid #333333;
 }
 
+.group-terms .field-type-taxonomy-term-reference {
+  float: left;
+}
+
+.group-terms .field-type-taxonomy-term-reference .field-items,
+.group-terms .field-type-taxonomy-term-reference .field-item {
+  display: inline;
+}
+
 .group-terms .field-type-taxonomy-term-reference:before {
-  content: '| ';
+  content: ' | ';
 }
 
 .group-terms .field-type-taxonomy-term-reference:first-child:before {
-  content: '| ';
+  content: '';
 }
 
