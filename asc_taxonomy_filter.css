@@ -28,9 +28,9 @@
 }
 
 #block-asc-taxonomy-filter-active-filters div.item-list ul {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  padding: 0.75em 0;
+  border-top: 1px solid #999999;
+  border-bottom: 2px solid #999999;
+  padding: 0.4em 0;
   font-weight: bold;
 }
 
