@@ -25,6 +25,9 @@ function asc_taxonomy_filter_block_info() {
       'pages'       => 'news
 news/filter*
 events
+events/day*
+events/month*
+events/year*
 events/filter*
 blog
 blog/filter*
