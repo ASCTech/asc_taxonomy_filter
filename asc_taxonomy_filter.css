@@ -67,3 +67,10 @@
   content: '';
 }
 
+.block-asc-taxonomy-filter-active-filters a#view-all {
+  float: right;
+  font-weight: normal;
+  background: #bb0000;
+  color: #ffffff;
+  padding: 0 0.5em;
+}
