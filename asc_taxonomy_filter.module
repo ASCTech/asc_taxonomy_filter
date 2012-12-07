@@ -67,7 +67,7 @@ function asc_taxonomy_filter_block_view($delta = '') {
       $term_list['attributes'] = array();
       $term_list['items'] = asc_get_active_term_names();
       $url = explode('/', drupal_get_path_alias());
-      $term_list['items'][] = l('View All', $url[0], array('title' => 'View All', 'id' => 'view-all'));
+      $term_list['items'][] = l('View All', $url[0], array('attributes' => array('title' => 'View All', 'id' => 'view-all')));
       $block['content'] = theme_item_list($term_list);
       break;
 
