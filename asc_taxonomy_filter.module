@@ -67,6 +67,9 @@ function asc_taxonomy_filter_block_view($delta = '') {
       $term_list['attributes'] = array();
       $term_list['items'] = asc_get_active_term_names();
       $block['content'] = theme_item_list($term_list);
+      $url = explode('/', drupal_get_path_alias());
+      $section = $url[0];
+      $block['content'] .= '<div id="view-all"><a href="' . $section . '" title="View all">View All</a></div>';
       break;
 
     default:
@@ -117,7 +120,7 @@ function build_filter_list($vocab) {
   $terms = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
 
   //Add first list item.
-  $list[] = '<a href="/'. get_strip_filters() . '">All</a>';
+  //$list[] = '<a href="/'. get_strip_filters() . '">All</a>';
 
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
