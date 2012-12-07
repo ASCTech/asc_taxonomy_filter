@@ -24,15 +24,12 @@ function asc_taxonomy_filter_block_info() {
     'visibility'  =>  '1',
       'pages'       => 'news
 news/filter*
-events
 events/day*
 events/month*
 events/year*
 events/filter*
-blog
 blog/filter*
-directory*
-gallery
+directory/filter*
 gallery/filter*',
   );
 
@@ -69,10 +66,9 @@ function asc_taxonomy_filter_block_view($delta = '') {
       $term_list['type'] = 'ul';
       $term_list['attributes'] = array();
       $term_list['items'] = asc_get_active_term_names();
-      $block['content'] = theme_item_list($term_list);
       $url = explode('/', drupal_get_path_alias());
-      $section = $url[0];
-      $block['content'] .= '<div id="view-all"><a href="' . $section . '" title="View all">View All</a></div>';
+      $term_list['items'][] = l('View All', $url[0], array('title' => 'View All', 'id' => 'view-all'));
+      $block['content'] = theme_item_list($term_list);
       break;
 
     default:
