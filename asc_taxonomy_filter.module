@@ -124,7 +124,7 @@ function build_filter_list($vocab) {
   //List of current terms to check for active.
   $active_term_list = asc_get_active_terms();
 
-  $qs = (implode(',',$active_term_list)) . (count($active_term_list) > 0 ? ',' : '');
+  //$cs_term_list = (implode(',',$active_term_list)) . (count($active_term_list) > 0 ? ',' : '');
 
   $term_to_append = (isset($term) ? ',' . $term->tid : '');
 
