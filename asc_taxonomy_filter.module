@@ -24,8 +24,7 @@ function asc_taxonomy_filter_block_info() {
     'region'      => 'content',
     'status'      => TRUE,
     'visibility'  =>  '1',
-      'pages'       => 'news
-news/filter*
+      'pages'       => 'news/filter*
 events/day*
 events/month*
 events/year*
@@ -137,6 +136,7 @@ function build_filter_list($vocab) {
 
 
   foreach ($terms as $term) {
+    $classes = '';
     //Apply active class if this term is active in URL.
 
     // Check to see if current term, parents or siblings are active. Otherwise, don't render unless top level.
