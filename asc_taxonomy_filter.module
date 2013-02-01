@@ -11,10 +11,6 @@ function asc_taxonomy_filter_init() {
   drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 }
 
-function asc_taxonomy_filter_menu_alter(&$items) {
-  dsm('sdf');
-  $items['taxonomy/term/%taxonomy_term'] = FALSE;
-}
 
 /**
  * Implements hook_block_info()
