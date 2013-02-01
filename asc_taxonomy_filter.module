@@ -5,15 +5,16 @@
  * asc_taxonomy_filter.module
  */
 
-function asc_taxonomy_filter_hook_menu_aliter(&$items) {
-  unset($items['taxonomy/term/%']);
-}
 
 
 function asc_taxonomy_filter_init() {
   drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 }
 
+function asc_taxonomy_filter_menu_alter(&$items) {
+  dsm('sdf');
+  $items['taxonomy/term/%taxonomy_term'] = FALSE;
+}
 
 /**
  * Implements hook_block_info()
@@ -58,9 +59,6 @@ gallery/filter*',
  */
 
 function asc_taxonomy_filter_block_view($delta = '') {
-
-  $url_array = explode('/', drupal_get_path_alias());
-  $section = $url_array[0];
 
   switch($delta) {
     case 'active_filters':
@@ -311,4 +309,33 @@ function asc_taxonomy_filter_date_pager_url ($view, $date_type = NULL, $date_arg
   return url($view->get_url($args), array(
     'query' => date_views_querystring($view),
     'absolute' => $absolute)) . current_filter_list();
+}
+
+function asc_taxonomy_filter_field_formatter_info() {
+  dsm('msdf');
+  return array(
+    'asc_taxonomy_filter_term_reference_link' => array(
+      'label' => t('ASC Taxonomy Filter Link'),
+      'field types' => array('taxonomy_term_reference'),
+    ),
+  );
+}
+
+function asc_taxonomy_filter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  foreach ($items as $delta => $item) {
+    $term = taxonomy_term_load($item['tid']);
+
+    $element[$delta] = array(
+      '#type' => 'link',
+      '#title' => $term->name,
+      '#href' => _get_section() . '/filter/' . $term->tid,
+    );
+  }
+  return $element;
+}
+
+function _get_section() {
+  $url_array = explode('/', drupal_get_path_alias());
+  return $url_array[0];
 }
