@@ -308,7 +308,6 @@ function asc_taxonomy_filter_date_pager_url ($view, $date_type = NULL, $date_arg
 }
 
 function asc_taxonomy_filter_field_formatter_info() {
-  dsm('msdf');
   return array(
     'asc_taxonomy_filter_term_reference_link' => array(
       'label' => t('ASC Taxonomy Filter Link'),
