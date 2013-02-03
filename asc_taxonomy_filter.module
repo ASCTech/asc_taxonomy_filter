@@ -335,9 +335,9 @@ function _get_section() {
   $sections = array(
     'people' => 'directory',
   );
-  if (array_key_exists($url_array[0], $sections) {
+  if (array_key_exists($url_array[0], $sections)) {
     return $sections[$url_array[0]];
-  else
+  } else {
     return $url_array[0];
-  endif
+  }
 }
