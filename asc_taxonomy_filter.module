@@ -77,21 +77,45 @@ function asc_taxonomy_filter_block_view($delta = '') {
       $filters['title'] = '';
       $filters['type'] = 'ul';
       $filters['attributes'] = array();
-      $filters['items'] = build_filter_list($vocab);
+      $filters['items'] = build_filter_list($vocab, $delta);
       $block['content'] = theme_item_list($filters);
   }
 
   return $block;
-
 }
 
-function get_current_section() {
+function asc_taxonomy_filter_block_configure($delta = '') {
+  $form = array();
+
+  $form['allow_and_filtering'] = array(
+    '#name' => 'allow_and_filtering',
+    '#type' => 'checkbox',
+    '#title' => t('Allow \'AND\' filtering for taxonomy terms'),
+    '#default_value' => variable_get($delta . '_allow_and_filtering', TRUE),
+  );
+
+  return $form;
+}
+
+function asc_taxonomy_filter_block_save($delta = '', $edit = array()) {
+  if (isset($edit['allow_and_filtering'])) {
+    variable_set($delta . '_allow_and_filtering', $edit['allow_and_filtering']);
+  }
+}
+
+function get_current_section($delta = '') {
+  $allow_and_filtering = variable_get($delta . '_allow_and_filtering');
+  
   $url_array = explode('/', drupal_get_path_alias());
   $terms = array_pop($url_array);
   $filter = array_pop($url_array);
-  if ($filter == 'filter') {
-    return $url_array[0] . '/filter/' ;
-  } else {
+  if ($filter == 'filter' && $allow_and_filtering) {
+    return drupal_get_path_alias() . ',';
+  }
+  elseif ($filter == 'filter' && !$allow_and_filtering) {
+     return $url_array[0] . '/filter/';
+  } 
+  else {
     return drupal_get_path_alias() . '/filter/';
   }
 }
@@ -107,9 +131,9 @@ function get_strip_filters() {
   return $alias;
 }
 
-function build_filter_list($vocab) {
+function build_filter_list($vocab, $delta) {
 
-  $section = get_current_section();
+  $section = get_current_section($delta);
 
   //Get URL without /1,2,3
 
