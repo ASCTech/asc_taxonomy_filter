@@ -90,7 +90,7 @@ function get_current_section() {
   $terms = array_pop($url_array);
   $filter = array_pop($url_array);
   if ($filter == 'filter') {
-    return drupal_get_path_alias() . ',';
+    return $url_array[0] . '/filter/' ;
   } else {
     return drupal_get_path_alias() . '/filter/';
   }
@@ -133,7 +133,6 @@ function build_filter_list($vocab) {
         $active_parents[] = $parent->tid;
     }
   }
-
 
   foreach ($terms as $term) {
     $classes = '';
