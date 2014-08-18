@@ -2,7 +2,8 @@
 .region-content #block-asc-taxonomy-filter-blog-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-people-terms-1 h2.block-title,
 .region-content #block-asc-taxonomy-filter-image-terms-1 h2.block-title,
-.region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title {
+.region-content #block-asc-taxonomy-filter-event-terms-1 h2.block-title,
+.region-content #block-asc-taxonomy-filter-media-type h2.block-title {
   display: none;
 }
 
@@ -10,9 +11,10 @@
 .region-content #block-asc-taxonomy-filter-blog-terms-1 li,
 .region-content #block-asc-taxonomy-filter-people-terms-1 li,
 .region-content #block-asc-taxonomy-filter-image-terms-1 li,
-.region-content #block-asc-taxonomy-filter-event-terms-1 li {
+.region-content #block-asc-taxonomy-filter-event-terms-1 li,
+.region-content #block-asc-taxonomy-filter-media-type li {
   display: inline;
-  padding: 0 0.75em;
+  padding: 0 3px 0 6px;
   border-left: 1px solid #333333;
   margin-left: 0;
 }
@@ -21,7 +23,8 @@
 .region-content #block-asc-taxonomy-filter-blog-terms-1 li:first-child,
 .region-content #block-asc-taxonomy-filter-people-terms-1 li:first-child,
 .region-content #block-asc-taxonomy-filter-image-terms-1 li:first-child,
-.region-content #block-asc-taxonomy-filter-event-terms-1 li:first-child {
+.region-content #block-asc-taxonomy-filter-event-terms-1 li:first-child,
+.region-content #block-asc-taxonomy-filter-media-type li:first-child {
   border-left: none;
   margin: 0;
   padding-left: 0;
@@ -73,5 +76,5 @@
   font-weight: normal;
   background: #bb0000;
   color: #ffffff;
-  padding: 0 0.5em;
+  padding: 0 3px 0 6px;
 }

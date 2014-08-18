@@ -5,8 +5,6 @@
  * asc_taxonomy_filter.module
  */
 
-
-
 function asc_taxonomy_filter_init() {
   drupal_add_css(drupal_get_path('module', 'asc_taxonomy_filter') . '/asc_taxonomy_filter.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 }
